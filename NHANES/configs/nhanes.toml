@@ -1,0 +1,54 @@
+[main]
+work_dir = "."
+raw_config_path = "configs/charls.toml"
+device = "cuda:0"
+
+[data]
+real_data_dir = "data"
+lambdas_scalers_path = "data/3_boxcox/lambdas_scalers.pkl"
+
+[train_mlp_params]
+dim_in = 20
+dim_t = 128
+d_layers = [ 256, 256, 256]
+dropout = 0.0
+
+[train_diffusion_params]
+n_timesteps = 1000
+multinomial_loss_type = "vb_stochastic"
+gaussian_loss_type = "mse"
+gaussian_parametrization = "eps"
+parametrization = "x0"
+scheduler = "cosine"
+
+[data.y]
+num_classes = 2
+label_column = "CVD"
+
+[data.x]
+numerical_feature_columns = ['Age (year)', 'Height (cm)', 'Weight (cm)', 'Waist (cm)', 'FBG (mg/dL)', 'FIN (uU/ml)', 'TG (mg/dL)', 'TC (mg/dL)', 'HDL-C (mg/dL)', 'LDL-C (mg/dL)', 'CRP (mg/L)', 'SBP (mmHg)', 'DBP (mmHg)', 'BG2h']
+categorical_feature_columns = ['Gender', 'Hypertension', 'PreDM', 'DM', 'DM_PreDM']
+
+[train.T]
+normalization = "minmax"
+num_nan_policy = "__none__"
+cat_nan_policy = "__none__"
+cat_min_frequency = "__none__"
+cat_encoding = "__none__"
+y_policy = "default"
+seed = 0
+
+[train.main]
+seed = 0
+steps = 10000
+init_lr = 0.00013
+decay_rate = 0.0
+weight_decay = 0.0
+log_start = 8000
+
+[sample.main]
+n_sample_batches = 15
+n_generate_times = 10
+n_sample_times = 4
+
+[eval.main]
