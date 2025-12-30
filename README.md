@@ -6,7 +6,7 @@ Official implementation of **GaussDiff: Gaussian-aligned Diffusion Balancer for 
 
 GaussDiff introduces a **Gaussian alignment strategy** for diffusion-based synthetic data generation, specifically designed to address severe class imbalance in clinical prediction tasks. By aligning feature distributions to Gaussian space before diffusion modeling, GaussDiff achieves superior performance in recall, ROC-AUC, and survival analysis across multiple healthcare datasets.
 
-![framework](output-1.png "framework")
+<img src="output-1.png" alt="framework" width="70%">
 
 
 ### Key Innovation
@@ -172,7 +172,7 @@ If you use this code, please cite:
 ```bibtex
 @article{gaussdiff2025,
   title={GaussDiff: Gaussian-aligned Diffusion Balancer for Synthetic Data Generation in Imbalanced Healthcare Datasets},
-  author={Jie Zhang, et al.},
+  author={, et al.},
   journal={Journal Name},
   year={2025}
 }
@@ -205,7 +205,7 @@ Portions of the diffusion modeling code are derived from TabDDPM, licensed under
 
 For questions or issues:
 - Open an issue on GitHub
-- Email: stzhangjie@hotmail.com
+- Email: stzhangjie@hotmail.com, lilypjm@hotmail.com
 
 ## Contributing
 
