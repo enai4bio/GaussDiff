@@ -96,7 +96,18 @@ Performance on CHARLS CVD prediction (mean ± std, n=15 runs):
 | SMOTE | 0.070±0.007 | 0.529±0.003 | 0.91 |
 | Random oversampling | 0.000± 0.000 | 0.548±0.004 | --- |
 
-**Key Achievement**: GaussDiff demonstrates the lowest variance (CV=4.4%) among all methods, indicating superior stability and robustness.
+**Key Achievement**: GaussDiff demonstrates the lowest variance among all methods, indicating superior stability and robustness.
+
+Performance on NHANES CVD prediction (mean ± std, n=15 runs):
+
+| Method | Recall | ROC-AUC | KM p-value |
+|--------|--------|---------|------------|
+| **GaussDiff** | **0.904±0.036** | **0.873±0.010** | **<0.001** |
+| TVAE | 0.485±0.049 | 0.795±0.011 | <0.001 |
+| CTGAN | 0.313±0.170 | 0.763±0.107 | <0.01 |
+| ADASYN | 0.109±0.007 | 0.862±0.003 | <0.001 |
+| SMOTE | 0.107±0.010 | 0.862±0.004 | <0.001 |
+| Random oversampling | 0.000± 0.000 | **0.875±0.008** | --- |
 
 ## Evaluation Framework
 
