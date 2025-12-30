@@ -1,6 +1,6 @@
-# GaussDiff: Gaussian-aligned Diffusion Balancer
+# GaussDiff: Gaussian-aligned diffusion for privacy-preserving class balancing in clinical prognoses
 
-Official implementation of **GaussDiff: Gaussian-aligned Diffusion Balancer for Synthetic Data Generation in Imbalanced Healthcare Datasets**.
+Official implementation of **GaussDiff: Gaussian-aligned diffusion for privacy-preserving class balancing in clinical prognoses**.
 
 ## Overview
 
@@ -8,13 +8,6 @@ GaussDiff introduces a **Gaussian alignment strategy** for diffusion-based synth
 
 <img src="output-1.png" alt="framework" width="90%">
 
-
-### Key Innovation
-
-- **Gaussian Alignment**: Novel theoretical framework that transforms features into Gaussian-aligned space for optimal diffusion modeling
-- **Class-Balanced Generation**: Generates balanced synthetic samples for minority classes
-- **Healthcare-Optimized**: Specifically designed for clinical prediction with temporal outcome validation
-- **Comprehensive Evaluation**: Multi-dimensional assessment including classification, distribution similarity (DCR), and survival analysis (Kaplan-Meier)
 
 ## Installation
 
@@ -96,10 +89,12 @@ Performance on CHARLS CVD prediction (mean ± std, n=15 runs):
 
 | Method | Recall | ROC-AUC | KM p-value |
 |--------|--------|---------|------------|
-| **GaussDiff** | **0.606±0.027** | **0.608±0.007** | **<0.001** |
+| **GaussDiff** | **0.596±0.018** | **0.600±0.009** | **<0.001** |
 | TVAE | 0.479±0.057 | 0.524±0.008 | 0.69 |
 | CTGAN | 0.196±0.051 | 0.580±0.025 | <0.001 |
-| SMOTE | 0.070±0.007 | 0.529±0.003 | <0.01 |
+| ADASYN | 0.065±0.004 | 0.526±0.003 | 0.42 |
+| SMOTE | 0.070±0.007 | 0.529±0.003 | 0.91 |
+| Random oversampling | 0.000± 0.000 | 0.548±0.004 | --- |
 
 **Key Achievement**: GaussDiff demonstrates the lowest variance (CV=4.4%) among all methods, indicating superior stability and robustness.
 
