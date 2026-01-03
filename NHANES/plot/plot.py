@@ -1,6 +1,6 @@
 
 
-wd = u"/media/jie/expand_5t/7exp_expand/tang_all/tang_v2/GaussDiff/NHANES"
+wd = u"/media/jie/expand_5t/7exp_expand/tang_all/tang_v2/git/GaussDiff/NHANES"
 sd = 42
 n_row = 6
 n_col = 20

@@ -26,7 +26,7 @@ from lifelines import KaplanMeierFitter
 from lifelines.statistics import logrank_test
 from matplotlib.lines import Line2D
 
-WD = Path("/media/jie/expand_5t/7exp_expand/tang_all/tang_v2/GaussDiff/CHARLS")
+WD = Path("/media/jie/expand_5t/7exp_expand/tang_all/tang_v2/git/GaussDiff/CHARLS")
 SEED_GLOBAL = 42
 N_ROW = 6
 N_COL = 20
