@@ -1,6 +1,6 @@
-# GaussDiff: Gaussian-aligned diffusion for privacy-preserving class balancing in clinical prognoses
+# Gaussian-aligned diffusion reduces prognostic under-detection of cardiovascular and pregnancy complications in hyperglycemia
 
-Official implementation of **GaussDiff: Gaussian-aligned diffusion for privacy-preserving class balancing in clinical prognoses**.
+Official implementation of **Gaussian-aligned diffusion reduces prognostic under-detection of cardiovascular and pregnancy complications in hyperglycemia**.
 
 ## Overview
 
