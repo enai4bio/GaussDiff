@@ -89,12 +89,12 @@ Performance on CHARLS CVD prediction (mean ± std, n=15 runs):
 
 | Method | Recall | ROC-AUC | KM p-value |
 |--------|--------|---------|------------|
-| **GaussDiff** | **0.596±0.018** | **0.600±0.009** | **<0.001** |
-| TVAE | 0.479±0.057 | 0.524±0.008 | 0.69 |
-| CTGAN | 0.196±0.051 | 0.580±0.025 | <0.001 |
-| ADASYN | 0.065±0.004 | 0.526±0.003 | 0.42 |
-| SMOTE | 0.070±0.007 | 0.529±0.003 | 0.91 |
-| Random oversampling | 0.000± 0.000 | 0.548±0.004 | --- |
+| **GaussDiff** | **0.596 ± 0.018** | **0.600 ± 0.009** | **<0.001** |
+| TVAE | 0.479 ± 0.057 | 0.524 ± 0.008 | 0.69 |
+| CTGAN | 0.196 ± 0.051 | 0.580 ± 0.025 | <0.001 |
+| ADASYN | 0.065 ± 0.004 | 0.526 ± 0.003 | 0.42 |
+| SMOTE | 0.070 ± 0.007 | 0.529 ± 0.003 | 0.91 |
+| Random oversampling | 0.000 ± 0.000 | 0.548 ± 0.004 | --- |
 
 **Key Achievement**: GaussDiff demonstrates the lowest variance among all methods, indicating superior stability and robustness.
 
@@ -102,12 +102,14 @@ Performance on NHANES CVD prediction (mean ± std, n=15 runs):
 
 | Method | Recall | ROC-AUC | KM p-value |
 |--------|--------|---------|------------|
-| **GaussDiff** | **0.904±0.036** | **0.873±0.010** | **<0.001** |
-| TVAE | 0.485±0.049 | 0.795±0.011 | <0.001 |
-| CTGAN | 0.313±0.170 | 0.763±0.107 | <0.01 |
-| ADASYN | 0.109±0.007 | 0.862±0.003 | <0.001 |
-| SMOTE | 0.107±0.010 | 0.862±0.004 | <0.001 |
-| Random oversampling | 0.000± 0.000 | **0.875±0.008** | --- |
+| **GaussDiff** | **0.904 ± 0.036** | **0.873 ± 0.010** | **<0.001** |
+| TVAE | 0.485 ± 0.049 | 0.795 ± 0.011 | <0.001 |
+| CTGAN | 0.313 ± 0.170 | 0.763 ± 0.107 | <0.01 |
+| ADASYN | 0.109 ± 0.007 | 0.862 ± 0.003 | <0.001 |
+| SMOTE | 0.107 ± 0.010 | 0.862 ± 0.004 | <0.001 |
+| Random oversampling | 0.000 ± 0.000 | 0.875 ± 0.008 | --- |
+
+Note: Random oversampling attains a nominally high ROC-AUC on NHANES but with zero recall on the minority class, making its ranking score clinically uninformative.
 
 ## Evaluation Framework
 
@@ -176,11 +178,11 @@ This ensures synthetic datasets address the original class imbalance while prese
 If you use this code, please cite:
 
 ```bibtex
-@article{gaussdiff2025,
-  title={GaussDiff: Gaussian-aligned Diffusion Balancer for Synthetic Data Generation in Imbalanced Healthcare Datasets},
-  author={, et al.},
-  journal={Journal Name},
-  year={2025}
+@article{gaussdiff2026,
+  title={Gaussian-aligned diffusion reduces prognostic under-detection of cardiovascular and pregnancy complications in hyperglycemia},
+  author={Zhang, Jie and Tumalisi, Julaiti and Suguro, Sei and Kudo, Takuya and Hoshina, Gakuse and Pan, Jiemin},
+  journal={},
+  year={2026}
 }
 ```
 
@@ -198,14 +200,14 @@ This project builds upon the diffusion modeling framework from [TabDDPM](https:/
 ```
 
 **Data Sources**:
-- [CHARLS](http://charls.pku.edu.cn/): China Health and Retirement Longitudinal Study
+- [CHARLS](https://charls.pku.edu.cn/): China Health and Retirement Longitudinal Study
 - [NHANES](https://www.cdc.gov/nchs/nhanes/): National Health and Nutrition Examination Survey
 
 ## License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
 
-Portions of the diffusion modeling code are derived from TabDDPM, licensed under Apache License 2.0.
+Portions of the diffusion modeling code are derived from TabDDPM, licensed under the MIT License.
 
 ## Contact
 
