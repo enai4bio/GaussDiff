@@ -1,6 +1,6 @@
 [main]
 work_dir = "."
-raw_config_path = "configs/charls.toml"
+raw_config_path = "configs/nhanes.toml"
 device = "cuda:0"
 
 [data]

@@ -4,7 +4,7 @@ Official implementation of **Gaussian-aligned generative modeling enables progno
 
 ## Overview
 
-GaussDiff introduces a **Gaussian alignment strategy** for diffusion-based synthetic data generation, specifically designed to address severe class imbalance in clinical prediction tasks. By aligning feature distributions to Gaussian space before diffusion modeling, GaussDiff achieves superior performance in recall, ROC-AUC, and survival analysis across multiple healthcare datasets.
+GaussDiff introduces a **Gaussian alignment strategy** for diffusion-based synthetic data generation, specifically designed to address severe class imbalance in clinical prediction tasks. Numerical features are aligned towards Gaussian marginals before diffusion modeling. In the paper's experiments, GaussDiff attained the highest sensitivity among the compared methods in every cohort, with significant Kaplan-Meier risk stratification.
 
 <img src="output-1.png" alt="framework" width="90%">
 
@@ -81,8 +81,8 @@ label_column = "CVD"        # Target variable
 num_classes = 2
 
 [data.x]
-numerical_feature_columns = ['Age', 'BMI', ...]
-categorical_feature_columns = ['Gender', 'Diabetes', ...]
+numerical_feature_columns = ['Age (year)', 'Height (cm)', ...]
+categorical_feature_columns = ["Gender", "DM", "HTN", "DYL"]
 
 [train.main]
 steps = 8000                # Training steps
@@ -159,15 +159,15 @@ GaussDiff evaluates synthetic data quality across three independent dimensions:
    - ROC-AUC (ranking quality)
    - PR-AUC (precision-recall trade-off)
 
-2. **Distribution Fidelity**
+2. **Privacy**
    - DCR (Distance to Closest Record)
-   - Measures feature distribution similarity
+   - Checks that synthetic records are not copies of training records
 
 3. **Temporal Risk Stratification**
    - Kaplan-Meier survival analysis
    - Log-rank test for group separation
 
-These metrics assess different aspects independently: classification accuracy, feature distribution quality, and temporal progression prediction.
+These metrics assess different aspects independently: classification performance, privacy, and temporal risk stratification.
 
 ## Project Structure
 
