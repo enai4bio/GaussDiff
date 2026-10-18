@@ -272,7 +272,6 @@ If you use this code, please cite the paper. Machine-readable metadata is in
 @article{gaussdiff2026,
   title={Gaussian-aligned generative modeling enables prognostic detection of low-incidence events in clinical data},
   author={Zhang, Jie and Tumalisi, Julaiti and Suguro, Sei and Kudo, Takuya and Pan, Jiemin},
-  journal={},
   year={2026}
 }
 ```
