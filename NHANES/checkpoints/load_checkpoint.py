@@ -6,9 +6,10 @@ named ``tab_ddpm.modules``. That module path is recorded inside the pickle, so
 a plain ``torch.load`` raises ``ModuleNotFoundError: No module named
 'tab_ddpm'`` against the current package layout.
 
-This helper registers the old module path as an alias of the current one
-(``nhanes_pipeline.models.tabular_diffusion.modules``) before unpickling. The
-class definition is unchanged, so the weights load exactly as saved.
+This helper registers that old module path under the current layer
+definitions before unpickling, loading them straight from
+``nhanes_pipeline/models/tabular_diffusion/modules.py``. The class definition
+is unchanged, so the weights load exactly as saved.
 
 Usage:
     from load_checkpoint import load_denoise_mlp

@@ -58,3 +58,5 @@ ENV/
 # Exception: the released NHANES pretrained checkpoint is tracked (1.3 MB)
 !NHANES/checkpoints/
 !NHANES/checkpoints/**
+# ...but never its bytecode cache
+NHANES/checkpoints/__pycache__/

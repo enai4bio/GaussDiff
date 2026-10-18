@@ -8,7 +8,7 @@ real_data_dir = "data"
 lambdas_scalers_path = "data/3_boxcox/lambdas_scalers.pkl"
 
 [train_mlp_params]
-dim_in = 20
+dim_in = 34
 dim_t = 128
 d_layers = [ 512, 512, 512, 512, 512, 256,]
 dropout = 0.0

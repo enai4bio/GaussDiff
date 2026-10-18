@@ -14,7 +14,7 @@ GaussDiff introduces a **Gaussian alignment strategy** for diffusion-based synth
 ## Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.9 (the pinned versions in `requirements.txt` target 3.9.18)
 - CUDA-compatible GPU (recommended)
 
 ### Install Dependencies
@@ -92,10 +92,16 @@ seed = 0                    # Random seed
 
 ### Network Architecture Selection
 
-| Dataset Size | Architecture | Recommendation |
-|-------------|--------------|----------------|
-| Large (n>5000) | [512,512,512,512,512,256] | 6-layer deep network |
-| Small (n<2000) | [256,256,256] | 3-layer network to prevent overfitting |
+The two released configurations:
+
+| Dataset | n | `d_layers` | `dim_t` |
+|---------|---|-----------|---------|
+| CHARLS | 8,054 | `[512,512,512,512,512,256]` | 128 |
+| NHANES | 4,917 | `[256,256,256]` | 256 |
+
+A deeper network suits the larger cohort; a 3-layer network limits
+overfitting on the smaller one. `dim_in` is recomputed from the data at
+training time, so the value in the config is informational.
 
 ### Core Hyperparameters
 

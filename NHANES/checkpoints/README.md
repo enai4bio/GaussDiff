@@ -11,7 +11,7 @@ NHANES CVD results reported in the paper.
 
 ## Checkpoint details
 
-- Architecture: `d_layers = [256, 256, 256]`, `dim_t = 128`
+- Architecture: `d_layers = [256, 256, 256]`, `dim_t = 256`, `dim_in = 24`
 - Diffusion: `n_timesteps = 1000`, cosine scheduler, `parametrization = "x0"`
 - Training: 11000 steps, `init_lr = 0.00013`, full-batch (2954), seed 0
 - Selected step: 9031 (lowest validation loss)
@@ -29,7 +29,8 @@ to `nhanes_pipeline.models.tabular_diffusion.modules`, so a plain
 ModuleNotFoundError: No module named 'tab_ddpm'
 ```
 
-Use the helper in this directory, which registers the alias and then loads:
+Use the helper in this directory, which registers that module path and then
+loads the checkpoint:
 
 ```python
 from load_checkpoint import load_denoise_mlp
@@ -40,17 +41,25 @@ denoise_mlp = load_denoise_mlp(device="cuda:0")
 Or, equivalently, by hand:
 
 ```python
-import sys, types, torch
-sys.path.insert(0, "NHANES/src")
-from nhanes_pipeline.models.tabular_diffusion import modules
-pkg = types.ModuleType("tab_ddpm"); pkg.modules = modules
-sys.modules["tab_ddpm"] = pkg
+import importlib.util, sys, types, torch
+
+sys.modules["tab_ddpm"] = types.ModuleType("tab_ddpm")
+spec = importlib.util.spec_from_file_location(
+    "tab_ddpm.modules",
+    "NHANES/src/nhanes_pipeline/models/tabular_diffusion/modules.py",
+)
+modules = importlib.util.module_from_spec(spec)
 sys.modules["tab_ddpm.modules"] = modules
+spec.loader.exec_module(modules)
 
 denoise_mlp = torch.load(
     "NHANES/checkpoints/diffusion.pt", weights_only=False, map_location="cuda:0"
 )
 ```
+
+Loading `modules.py` by file, rather than importing it through the package,
+avoids executing the package `__init__` chain, which pulls in the sampling
+code. Only the layer definitions are needed to unpickle the checkpoint.
 
 The class definition itself is unchanged, so the weights load exactly as
 saved. Verified: loads to `MLPDiffusion` with 342,040 parameters and produces
