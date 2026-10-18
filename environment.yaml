@@ -406,4 +406,3 @@ dependencies:
       - wurlitzer==3.0.3
       - yapf==0.40.2
       - zipp==3.18.1
-prefix: /home/jie/anaconda3/envs/gaussdiff

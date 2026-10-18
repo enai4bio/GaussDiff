@@ -1,6 +1,10 @@
 
 
-wd = u"/media/jie/expand_5t/7exp_expand/tang_all/tang_v2/git/GaussDiff/NHANES"
+import os as _os
+# Dataset root (the NHANES/ directory), resolved relative to this script.
+# Override with the GAUSSDIFF_WD environment variable if needed.
+wd = _os.environ.get("GAUSSDIFF_WD",
+                     _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 sd = 42
 n_row = 6
 n_col = 20

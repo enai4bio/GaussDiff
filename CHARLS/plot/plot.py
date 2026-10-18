@@ -26,7 +26,9 @@ from lifelines import KaplanMeierFitter
 from lifelines.statistics import logrank_test
 from matplotlib.lines import Line2D
 
-WD = Path("/media/jie/expand_5t/7exp_expand/tang_all/tang_v2/git/GaussDiff/CHARLS")
+# Dataset root (the CHARLS/ directory), resolved relative to this script.
+# Override with the GAUSSDIFF_WD environment variable if needed.
+WD = Path(os.environ.get("GAUSSDIFF_WD", Path(__file__).resolve().parent.parent))
 SEED_GLOBAL = 42
 N_ROW = 6
 N_COL = 20
