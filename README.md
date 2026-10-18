@@ -1,6 +1,6 @@
-# Gaussian-aligned diffusion reduces prognostic under-detection of cardiovascular and pregnancy complications in hyperglycemia
+# Gaussian-aligned generative modeling enables prognostic detection of low-incidence events in clinical data
 
-Official implementation of **Gaussian-aligned diffusion reduces prognostic under-detection of cardiovascular and pregnancy complications in hyperglycemia**.
+Official implementation of **Gaussian-aligned generative modeling enables prognostic detection of low-incidence events in clinical data**.
 
 ## Overview
 
@@ -103,6 +103,10 @@ A deeper network suits the larger cohort; a 3-layer network limits
 overfitting on the smaller one. `dim_in` is recomputed from the data at
 training time, so the value in the config is informational.
 
+The NHANES `dim_t = 256` above is the value carried by the released
+checkpoint (its `proj`, `time_embed` and `label_emb` tensors are all 256-wide)
+and by the configuration recorded for that training run.
+
 ### Core Hyperparameters
 
 All experiments use consistent diffusion parameters:
@@ -114,38 +118,44 @@ All experiments use consistent diffusion parameters:
 
 ## Results
 
-Performance on CHARLS CVD prediction (mean ± std, n=15 runs):
+Performance on CHARLS CVD prediction (mean ± std over 15 independent runs):
 
-| Method | Recall | ROC-AUC | KM p-value |
-|--------|--------|---------|------------|
-| **GaussDiff** | **0.596 ± 0.018** | **0.600 ± 0.009** | **<0.001** |
-| TVAE | 0.479 ± 0.057 | 0.524 ± 0.008 | 0.69 |
-| CTGAN | 0.196 ± 0.051 | 0.580 ± 0.025 | <0.001 |
-| ADASYN | 0.065 ± 0.004 | 0.526 ± 0.003 | 0.42 |
-| SMOTE | 0.070 ± 0.007 | 0.529 ± 0.003 | 0.91 |
-| Random oversampling | 0.000 ± 0.000 | 0.548 ± 0.004 | --- |
+| Method | Sensitivity | ROC-AUC | PR-AUC |
+|--------|-------------|---------|--------|
+| **GaussDiff** | **0.596 ± 0.018** | **0.600 ± 0.009** | 0.087 ± 0.004 |
+| TVAE | 0.479 ± 0.057 | 0.524 ± 0.008 | 0.069 ± 0.002 |
+| CTGAN | 0.196 ± 0.051 | 0.580 ± 0.025 | 0.087 ± 0.009 |
+| SMOTE | 0.070 ± 0.007 | 0.529 ± 0.003 | 0.069 ± 0.001 |
+| ADASYN | 0.065 ± 0.004 | 0.526 ± 0.003 | 0.068 ± 0.001 |
+| Random oversampling | 0.000 ± 0.000 | 0.548 ± 0.004 | 0.076 ± 0.001 |
 
-**Key Achievement**: GaussDiff demonstrates the lowest variance among all methods, indicating superior stability and robustness.
+Performance on NHANES CVD prediction (mean ± std over 15 independent runs):
 
-Performance on NHANES CVD prediction (mean ± std, n=15 runs):
+| Method | Sensitivity | ROC-AUC | PR-AUC |
+|--------|-------------|---------|--------|
+| **GaussDiff** | **0.904 ± 0.036** | 0.873 ± 0.010 | 0.179 ± 0.017 |
+| TVAE | 0.485 ± 0.049 | 0.795 ± 0.011 | 0.127 ± 0.018 |
+| CTGAN | 0.313 ± 0.170 | 0.763 ± 0.107 | 0.094 ± 0.052 |
+| SMOTE | 0.107 ± 0.010 | 0.862 ± 0.004 | 0.134 ± 0.005 |
+| ADASYN | 0.109 ± 0.007 | 0.862 ± 0.003 | 0.134 ± 0.003 |
+| Random oversampling | 0.000 ± 0.000 | **0.875 ± 0.008** | **0.246 ± 0.012** |
 
-| Method | Recall | ROC-AUC | KM p-value |
-|--------|--------|---------|------------|
-| **GaussDiff** | **0.904 ± 0.036** | **0.873 ± 0.010** | **<0.001** |
-| TVAE | 0.485 ± 0.049 | 0.795 ± 0.011 | <0.001 |
-| CTGAN | 0.313 ± 0.170 | 0.763 ± 0.107 | <0.01 |
-| ADASYN | 0.109 ± 0.007 | 0.862 ± 0.003 | <0.001 |
-| SMOTE | 0.107 ± 0.010 | 0.862 ± 0.004 | <0.001 |
-| Random oversampling | 0.000 ± 0.000 | 0.875 ± 0.008 | --- |
+Note: on NHANES, random oversampling attains the highest ROC-AUC and PR-AUC
+while identifying none of the minority-class cases (sensitivity = 0). A model
+that detects no high-risk patients is clinically uninformative despite those
+favorable rank-based scores, which is why sensitivity is the operative
+criterion in this low-incidence setting.
 
-Note: Random oversampling attains a nominally high ROC-AUC on NHANES but with zero recall on the minority class, making its ranking score clinically uninformative.
+Values are reproduced from Tables S2(b) and S2(c) of the paper. Full results,
+including the SHDS and pregnancy cohorts and 95% confidence intervals, are
+reported there.
 
 ## Evaluation Framework
 
 GaussDiff evaluates synthetic data quality across three independent dimensions:
 
 1. **Classification Performance**
-   - Recall (minority class sensitivity)
+   - Sensitivity (minority-class detection rate)
    - ROC-AUC (ranking quality)
    - PR-AUC (precision-recall trade-off)
 
@@ -182,6 +192,7 @@ GaussDiff/
 │   └── run.py
 ├── NHANES/                  # NHANES dataset pipeline (same layout)
 │   └── checkpoints/         # Released pretrained GaussDiff checkpoint
+├── CITATION.cff
 ├── environment.yaml
 ├── LICENSE
 ├── README.md
@@ -190,19 +201,36 @@ GaussDiff/
 
 ## Data Availability
 
-**NHANES.** NHANES is fully public. The preprocessed NHANES data used in the
-experiments is included in `NHANES/data/`, and the original survey files are
-available from the [NHANES website](https://www.cdc.gov/nchs/nhanes/).
+The paper evaluates GaussDiff on four cohorts. This repository contains the
+code for the two public ones.
 
-**CHARLS.** CHARLS data is **not redistributed in this repository**, because
-its data use agreement does not permit redistribution. The CHARLS code and
-directory structure are included, with the data directories left empty.
+**NHANES** (public). The preprocessed NHANES data used in the experiments is
+included in `NHANES/data/`, and the original survey files are available from
+the [NHANES website](https://www.cdc.gov/nchs/nhanes/).
+
+**CHARLS** (available on application). CHARLS data is **not redistributed
+here**: it is available to registered users upon approval of a data access
+application. The CHARLS code and directory structure are included, with the
+data directories left empty.
 
 To reproduce the CHARLS experiments, apply for access through the
 [CHARLS official website](https://charls.pku.edu.cn/), then place the approved
-data extract into the corresponding directory (`CHARLS/data/1_origin/`) and
-run the preprocessing script `CHARLS/data/CHARLS_pretreatment.py` to
-regenerate `2_split/`, `3_boxcox/` and `4_km/`.
+data extract into `CHARLS/data/1_origin/` and run the preprocessing script
+`CHARLS/data/CHARLS_pretreatment.py` to regenerate `2_split/`, `3_boxcox/`
+and `4_km/`.
+
+**SHDS and the hospital pregnancy cohort** (not public). These contain
+protected patient information and are not available in this repository. The
+data are held by the Department of Endocrinology and Metabolism, Shanghai
+Sixth People's Hospital Affiliated to Shanghai Jiao Tong University School of
+Medicine. De-identified data may be made available to qualified researchers
+upon reasonable request to the corresponding author, subject to ethics
+approval and a data use agreement. Model weights trained on these two cohorts
+are likewise not shared, because the models were trained on protected patient
+data.
+
+Synthetic datasets generated in the study are deposited on Zenodo
+(DOI: [10.5281/zenodo.18151449](https://doi.org/10.5281/zenodo.18151449)).
 
 ## Pretrained Checkpoint
 
@@ -211,6 +239,10 @@ included at `NHANES/checkpoints/diffusion.pt` (1.3 MB), together with the
 configuration recorded by that training run and a loader helper. See
 [`NHANES/checkpoints/README.md`](NHANES/checkpoints/README.md) for loading
 instructions and checkpoint details.
+
+Weights for CHARLS are not deposited; that model can be retrained with the
+code and configuration here after obtaining CHARLS data access. Weights for
+the SHDS and pregnancy cohorts are not shared (see Data Availability).
 
 ## Methodology
 
@@ -234,12 +266,17 @@ This ensures synthetic datasets address the original class imbalance while prese
 
 ## Citation
 
-If you use this code, please cite:
+If you use this code, please cite the paper. Machine-readable metadata is in
+[`CITATION.cff`](CITATION.cff).
+
+> The archived-release DOI in `CITATION.cff` is still a placeholder
+> (`10.5281/zenodo.RRRRRRRR`); replace it with the reserved Zenodo DOI, along
+> with the journal name and year below, once the paper is accepted.
 
 ```bibtex
 @article{gaussdiff2026,
-  title={Gaussian-aligned diffusion reduces prognostic under-detection of cardiovascular and pregnancy complications in hyperglycemia},
-  author={Zhang, Jie and Tumalisi, Julaiti and Suguro, Sei and Kudo, Takuya and Hoshina, Gakuse and Pan, Jiemin},
+  title={Gaussian-aligned generative modeling enables prognostic detection of low-incidence events in clinical data},
+  author={Zhang, Jie and Tumalisi, Julaiti and Suguro, Sei and Kudo, Takuya and Pan, Jiemin},
   journal={},
   year={2026}
 }

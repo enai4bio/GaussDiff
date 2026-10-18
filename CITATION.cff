@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the paper."
+title: "GaussDiff"
+abstract: >-
+  Gaussian-aligned generative modeling for prognostic detection of
+  low-incidence events in clinical data.
+type: software
+license: MIT
+repository-code: "https://github.com/enai4bio/GaussDiff"
+authors:
+  - family-names: Zhang
+    given-names: Jie
+  - family-names: Tumalisi
+    given-names: Julaiti
+  - family-names: Suguro
+    given-names: Sei
+  - family-names: Kudo
+    given-names: Takuya
+  - family-names: Pan
+    given-names: Jiemin
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.RRRRRRRR"
+    description: Archived release of this repository
+preferred-citation:
+  type: article
+  title: >-
+    Gaussian-aligned generative modeling enables prognostic detection of
+    low-incidence events in clinical data
+  year: 2026
+  authors:
+    - family-names: Zhang
+      given-names: Jie
+    - family-names: Tumalisi
+      given-names: Julaiti
+    - family-names: Suguro
+      given-names: Sei
+    - family-names: Kudo
+      given-names: Takuya
+    - family-names: Pan
+      given-names: Jiemin
