@@ -1,0 +1,56 @@
+# GaussDiff runtime dependencies
+# Versions pinned to the environment used for the reported experiments.
+# Python 3.9.18
+#
+# Install in two steps:
+#
+#   pip install -r requirements.txt
+#   pip install --no-deps rtdl==0.0.9 libzero==0.0.8
+#
+# Why rtdl and libzero are installed with --no-deps:
+#   Both declare "torch<2" in their metadata, but the reported experiments
+#   were run against torch 2.8.0, with which both work fine. Installing them
+#   with --no-deps keeps the torch version actually used for the experiments
+#   instead of downgrading to torch 1.x. Their own dependencies (numpy,
+#   pynvml, tqdm) are pinned explicitly below, so nothing is left unresolved.
+#
+# GPU note:
+#   torch is pinned here to the build resolved by the default PyPI index.
+#   The experiments used the cu128 build (torch 2.8.0+cu128). For a specific
+#   CUDA toolkit, install torch first from
+#   https://pytorch.org/get-started/locally/ and then run this file.
+
+# --- core numerics ---
+numpy==1.26.4
+pandas==2.3.3
+scipy==1.13.1
+scikit-learn==1.0.2
+joblib==1.4.0
+
+# --- deep learning ---
+torch==2.8.0
+
+# --- dependencies of rtdl / libzero (installed via --no-deps, see header) ---
+pynvml==11.5.0
+
+# --- class balancing baselines ---
+imbalanced-learn==0.7.0
+category-encoders==2.3.0
+
+# --- generative baselines (TVAE / CTGAN) ---
+sdv==1.31.0
+ctgan==0.11.1
+
+# --- survival analysis ---
+lifelines==0.30.0
+
+# --- config I/O ---
+tomli==2.0.1
+tomli-w==0.4.0
+
+# --- plotting / reporting ---
+matplotlib==3.8.4
+seaborn==0.13.2
+tqdm==4.62.3
+icecream==2.1.2
+ipython==8.18.1

@@ -1,5 +1,6 @@
 import argparse
 import os
+import time
 from glob import glob
 import shutil
 import numpy as np
@@ -15,6 +16,24 @@ from tqdm import tqdm
 
 from .models.tabular_diffusion import GaussianMultinomialDiffusion
 
+def _backup_previous_results(result_dir):
+    """Move an existing results directory aside instead of deleting it.
+
+    Training used to remove results/ outright, which silently destroyed the
+    output of a previous run. The directory is renamed to
+    results_backup_<timestamp> instead, so earlier runs are kept.
+    """
+    result_dir = result_dir.rstrip('/')
+    stamp = time.strftime('%Y%m%d_%H%M%S')
+    backup_dir = f'{result_dir}_backup_{stamp}'
+    suffix = 1
+    while os.path.exists(backup_dir):
+        backup_dir = f'{result_dir}_backup_{stamp}_{suffix}'
+        suffix += 1
+    shutil.move(result_dir, backup_dir)
+    return backup_dir
+
+
 def main() -> None:
 
     parser = argparse.ArgumentParser(description='nhanes Diffusion Pipeline')
@@ -22,6 +41,8 @@ def main() -> None:
                        help='Work directory containing data/ and configs/')
     parser.add_argument('--job', type=str, required=True,
                        help='Job to run: train/sample/eval/train_sample_eval')
+    parser.add_argument('--config', type=str, default='configs/nhanes.toml',
+                       help='Config file, relative to --wd (default: configs/nhanes.toml)')
     args = parser.parse_args()
 
     work_dir = os.path.abspath(args.wd)
@@ -30,13 +51,16 @@ def main() -> None:
 
     if 'train' in job:
         torch.cuda.empty_cache()
-        config_path = 'configs/nhanes.toml'
-        config_path = os.path.join(work_dir, config_path)
+        config_path = os.path.join(work_dir, args.config)
+        if not os.path.isfile(config_path):
+            raise SystemExit(f'Config file not found: {config_path}')
         raw_config = lib.load_config(config_path)
         raw_config['main']['result_dir'] = result_dir = f"{raw_config['main']['work_dir']}/results/"
         raw_config['train']['main']['trained_model_dir'] = trained_model_dir = f"{raw_config['main']['work_dir']}/results/trained_model"
         print('=' * 33, 'TRAIN', '=' * 33)
-        if os.path.isdir(result_dir): shutil.rmtree(result_dir)
+        if os.path.isdir(result_dir):
+            backup_dir = _backup_previous_results(result_dir)
+            print(f'Previous results moved to: {backup_dir}')
         os.makedirs(trained_model_dir)
         train(raw_config)
         torch.cuda.empty_cache()

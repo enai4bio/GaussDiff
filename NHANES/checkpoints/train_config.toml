@@ -1,0 +1,117 @@
+[main]
+work_dir = "."
+exp_dir = "."
+raw_config_path = "./config.toml"
+device = "cuda:0"
+n_trials = 1
+
+[data]
+real_data_dir = "data/3_boxcox"
+numerical_feature_column_path = "numerical_feture_columns.csv"
+categorical_feature_column_path = "categorical_feature_columns.csv"
+lambdas_scalers_path = "data/3_boxcox/lambdas_scalers.pkl"
+
+[data.y]
+num_classes = 2
+label_column = "CVDs"
+
+[data.x]
+n_numerical_features = 14
+n_categorical_features = 5
+numerical_feature_columns = [
+    "Age",
+    "Height",
+    "Weight",
+    "Waist_Circumference",
+    "FBG",
+    "Insulin",
+    "TG",
+    "TC",
+    "HDL",
+    "LDL",
+    "CRP",
+    "SBP",
+    "DBP",
+    "BG2h",
+]
+categorical_feature_columns = [
+    "Gender",
+    "Hypertension",
+    "PreDM",
+    "DM",
+    "DM_PreDM",
+]
+num_classes = [
+    2,
+    2,
+    2,
+    2,
+    2,
+]
+
+[train.T]
+normalization = "minmax"
+num_nan_policy = "__none__"
+cat_nan_policy = "__none__"
+cat_min_frequency = "__none__"
+cat_encoding = "__none__"
+y_policy = "default"
+seed = 0
+
+[train.main]
+seed = 0
+trial_dir = "."
+trained_model_dir = "./trained_model"
+n_trained_model_dir_list = 99
+dataset_path = "./trained_model/dataset_path.pkl"
+batch_size = 2954
+epoch = 11000
+steps = 11000
+change_val = "False"
+init_lr = 0.00013
+anneal = "False"
+anneal_method = ""
+decay_rate = 0.0
+weight_decay = 0.0
+balance_loss_method = ""
+diffusion_moving_average = "False"
+log_every = 30000
+log_start = 5000
+ema_every = 1
+
+[train_mlp_params]
+dim_in = 24
+dim_t = 256
+d_layers = [
+    256,
+    256,
+    256,
+]
+dropout = 0.0
+
+[train_diffusion_params]
+n_timesteps = 1000
+multinomial_loss_type = "vb_stochastic"
+gaussian_loss_type = "mse"
+gaussian_parametrization = "eps"
+parametrization = "x0"
+scheduler = "cosine"
+
+[sample.main]
+best_model_dir = "./trained_model/step_009031"
+best_model_path = "./trained_model/step_009031/diffusion.pt"
+seed = 14
+sample_dir = "./sample_14"
+n_sample_batches = 15
+n_generate_times = 5
+n_sample_times = 2
+balance_sample_method = ""
+smote_testset_only = ""
+d_in_similarity = "./d_in_similarity.csv"
+average_model_path = "./trial_05/trained_model/step_1362/move_ave.pt"
+
+[eval.main]
+epoch_dir = "./sample_14/epochs_009031_random_generated/"
+eval_dir = "./eval/epochs_009031/sample_14"
+seed = 14
+shuffle_switch = "False"
