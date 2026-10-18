@@ -229,8 +229,7 @@ approval and a data use agreement. Model weights trained on these two cohorts
 are likewise not shared, because the models were trained on protected patient
 data.
 
-Synthetic datasets generated in the study are deposited on Zenodo
-(DOI: [10.5281/zenodo.18151449](https://doi.org/10.5281/zenodo.18151449)).
+Synthetic datasets generated in the study are deposited on Zenodo.
 
 ## Pretrained Checkpoint
 
@@ -268,10 +267,6 @@ This ensures synthetic datasets address the original class imbalance while prese
 
 If you use this code, please cite the paper. Machine-readable metadata is in
 [`CITATION.cff`](CITATION.cff).
-
-> The archived-release DOI in `CITATION.cff` is still a placeholder
-> (`10.5281/zenodo.RRRRRRRR`); replace it with the reserved Zenodo DOI, along
-> with the journal name and year below, once the paper is accepted.
 
 ```bibtex
 @article{gaussdiff2026,

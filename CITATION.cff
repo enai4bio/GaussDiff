@@ -18,10 +18,6 @@ authors:
     given-names: Takuya
   - family-names: Pan
     given-names: Jiemin
-identifiers:
-  - type: doi
-    value: "10.5281/zenodo.RRRRRRRR"
-    description: Archived release of this repository
 preferred-citation:
   type: article
   title: >-
